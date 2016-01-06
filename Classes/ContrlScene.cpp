@@ -46,7 +46,7 @@ bool ContrlScene::initBtn(){
     
     //editbox
     Scale9Sprite* ss = Scale9Sprite::create("edit_box.png");
-    ss->setPosition(visibleSize.width*0.5000, visibleSize.height*9331);
+    ss->setPosition(visibleSize.width*0.5000, visibleSize.height*0.9331);
     ss->setTag(9000);
     //addChild(ss);
     Sprite* s = ss->getSprite();
