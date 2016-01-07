@@ -124,6 +124,7 @@ void* OrderBtn::sendOrder(void* args){
     Label* lbl = (Label*)s_pHomeScene->getChildByTag(9002);
     
     if(-1 == recsize /*|| buf[7] != bi.strOrd.at(7)*/){
+        s_nOrderSelBtnTag = 0;
         if(s_pHomeScene->getChildByTag(bi.tag)->isVisible()){
             s_pHomeScene->getChildByTag(bi.tag)->setVisible(false);
         }

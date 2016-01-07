@@ -77,6 +77,7 @@ bool ContrlBtn::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event
     Vec2 localTouch = touch->getLocation();
     if(getBoundingBox().containsPoint(localTouch)){
         if(406 == m_tag){
+            s_nCtrlSelBtnTag = 0;
             //点击返回按钮，返回主场景
             back2home();
             return false;

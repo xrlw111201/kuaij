@@ -76,6 +76,7 @@ bool ConfBtn::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event){
     Vec2 localTouch = touch->getLocation();
     if(getBoundingBox().containsPoint(localTouch)){
         if(604 == m_tag){
+            s_nConfSelBtnTag = 0;
             //点击返回按钮，返回主场景
             back2home();
             return false;
@@ -116,6 +117,7 @@ void* ConfBtn::sendOrder(void* args){
     Label* lbl = (Label*)s_pConfScene->getChildByTag(9002);
     
     if(-1 == recsize /*|| buf[7] != bi.strOrd.at(7)*/){
+        s_nConfSelBtnTag = 0;
         if(s_pConfScene->getChildByTag(bi.tag)->isVisible()){
             s_pConfScene->getChildByTag(bi.tag)->setVisible(false);
         }
