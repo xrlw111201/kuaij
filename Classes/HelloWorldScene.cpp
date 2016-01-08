@@ -27,7 +27,14 @@ bool HelloWorld::init()
     listener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
-    m_nCurBtnTag = 0;
+    EventListenerKeyboard* kbListener = EventListenerKeyboard::create();
+    kbListener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(kbListener, this);
+    
+    
+    OrderBtn::s_pHomeScene = this;
+    
+    //m_nCurBtnTag = 0;
     bool rt = initBtn();
     return rt;
 }
@@ -40,7 +47,13 @@ bool HelloWorld::initBtn(){
     bg->setTag(90);
     addChild(bg);
     
-    OrderBtn::s_pHomeScene = this;
+    Label* lblSn = Label::create();
+    lblSn->setString("设备序列号");
+    lblSn->setTextColor(Color4B::WHITE);
+    lblSn->setSystemFontSize(28.00);
+    lblSn->setHorizontalAlignment(TextHAlignment::CENTER);
+    lblSn->setPosition(visibleSize.width*0.1700, visibleSize.height*0.9331);
+    addChild(lblSn);
 
     //editbox
     Scale9Sprite* ss = Scale9Sprite::create("edit_box.png");
@@ -54,24 +67,14 @@ bool HelloWorld::initBtn(){
     EditBox* peb = EditBox::create(Size(sx, sy), ss);
     peb->setPosition(Vec2(visibleSize.width*0.5000, visibleSize.height*0.9331));
     peb->setTag(9001);
-    peb->setFont("Arial", 35);
-    peb->setPlaceholderFont("Arial", 25);
+    peb->setFontSize(35);
+    peb->setPlaceholderFontSize(25);
     peb->setFontColor(Color3B::BLACK);
     peb->setPlaceholderFontColor (Color3B::GRAY);
     peb->setPlaceHolder("输入设备序列号");
     peb->setMaxLength(12);
     peb->setDelegate(this);
     addChild(peb);
-    
-    Label* lbl = Label::create();
-    lbl->setString("");
-    lbl->setTextColor(Color4B::WHITE);
-    lbl->enableShadow();
-    lbl->setSystemFontSize(25.00);
-    lbl->setHorizontalAlignment(TextHAlignment::CENTER);
-    lbl->setPosition(visibleSize.width*0.5000, visibleSize.height*0.0565);
-    lbl->setTag(9002);
-    addChild(lbl);
 
     for(int i=0; i<5; i++){
         OrderBtn* pob = OrderBtn::create();
@@ -112,7 +115,7 @@ bool HelloWorld::initBtn(){
         fclose(fp);
     }
     fp = NULL;
-    
+
     Sprite* contrl = Sprite::create("control.png");
     contrl->setPosition(visibleSize.width*0.1688, visibleSize.height*0.0539);
     contrl->setTag(1000);
@@ -122,6 +125,16 @@ bool HelloWorld::initBtn(){
     conf->setPosition(visibleSize.width*0.8406, visibleSize.height*0.0574);
     conf->setTag(2000);
     addChild(conf);
+    
+    Label* lbl = Label::create();
+    lbl->setString("");
+    lbl->setTextColor(Color4B::WHITE);
+    lbl->enableShadow();
+    lbl->setSystemFontSize(25.00);
+    lbl->setHorizontalAlignment(TextHAlignment::CENTER);
+    lbl->setPosition(visibleSize.width*0.5000, visibleSize.height*0.0565);
+    lbl->setTag(9002);
+    addChild(lbl);
     
     return true;
 }
@@ -137,30 +150,22 @@ bool HelloWorld::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_even
         auto trans = TransitionMoveInR::create(0.5, ConfScene::createScene());
         Director::getInstance()->replaceScene(trans);
     }
-    //TextFieldTTF* tf = (TextFieldTTF*)getChildByTag(9001);
+
     EditBox* tf = (EditBox*)getChildByTag(9001);
     if(tf->getBoundingBox().containsPoint(touchLocation)){
-        tf->attachWithIME();
+        CCDirector::sharedDirector()->getOpenGLView()->setIMEKeyboardState(true);
     }else{
-        tf->detachWithIME();
+        CCDirector::sharedDirector()->getOpenGLView()->setIMEKeyboardState(false);
     }
     
     return false;
 }
 
 void HelloWorld::editBoxEditingDidBegin(cocos2d::extension::EditBox* editBox)
-{
-}
+{}
 
 void HelloWorld::editBoxEditingDidEnd(cocos2d::extension::EditBox* editBox)
-{
-//    if(strlen(editBox->getText()) != 12) return;
-//    
-//    string strTmp;
-//    strTmp.assign(editBox->getText(), 12);
-//    setGlobalSn(strTmp);
-//    setBtnOrd();
-}
+{}
 
 void HelloWorld::editBoxTextChanged(cocos2d::extension::EditBox* editBox, const std::string &text)
 {
@@ -171,8 +176,7 @@ void HelloWorld::editBoxTextChanged(cocos2d::extension::EditBox* editBox, const 
 }
 
 void HelloWorld::editBoxReturn(cocos2d::extension::EditBox *editBox)
-{
-}
+{}
 
 void HelloWorld::setGlobalSn(string strSn){
     FILE* fp = fopen(m_strSnPath.c_str(), "w+");

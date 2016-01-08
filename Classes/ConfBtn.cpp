@@ -126,15 +126,22 @@ void* ConfBtn::sendOrder(void* args){
     return NULL;
 }
 
+void ConfBtn::unSel(){
+    setVisible(false);
+    s_nConfSelBtnTag = 0;
+}
+
 void ConfBtn::_sendOrder(){
     
     Label* lbl = (Label*)s_pConfScene->getChildByTag(9002);
     
     if(Global::getNetErr()){
         lbl->setString("连接失败，请检查网络");
+        unSel();
     }
     else if("" == m_strOrder){
         lbl->setString("请先指定设备序列号");
+        unSel();
     }else{
         lbl->setString("");
         pthread_create(&m_pid, NULL, sendOrder, &m_bi);

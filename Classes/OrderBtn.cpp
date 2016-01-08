@@ -93,9 +93,11 @@ void OrderBtn::_sendOrder(){
     
     if(Global::getNetErr()){
         lbl->setString("连接失败，请检查网络");
+        unSel();
     }
     else if("" == m_strOrder){
         lbl->setString("请先指定设备序列号");
+        unSel();
     }else{
         lbl->setString("");
         pthread_create(&m_pid, NULL, sendOrder, &m_bi);
@@ -131,6 +133,11 @@ void* OrderBtn::sendOrder(void* args){
         lbl->setString("网络超时");
     }
     return NULL;
+}
+
+void OrderBtn::unSel(){
+    s_nOrderSelBtnTag = 0;
+    setVisible(false);
 }
 
 void OrderBtn::setOrd(){

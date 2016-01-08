@@ -39,7 +39,7 @@ private:
     static void* sendOrder(void*);
     void _sendOrder();
     void setBi();
-    
+    void unSel();
 public:
     static Node* s_pConfScene;
     static int s_nConfSelBtnTag;

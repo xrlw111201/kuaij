@@ -44,6 +44,14 @@ bool ContrlScene::initBtn(){
     bg->setTag(90);
     addChild(bg);
     
+    Label* lblSn = Label::create();
+    lblSn->setString("设备序列号");
+    lblSn->setTextColor(Color4B::WHITE);
+    lblSn->setSystemFontSize(28.00);
+    lblSn->setHorizontalAlignment(TextHAlignment::CENTER);
+    lblSn->setPosition(visibleSize.width*0.1500, visibleSize.height*0.9331);
+    addChild(lblSn);
+    
     //editbox
     Scale9Sprite* ss = Scale9Sprite::create("edit_box.png");
     ss->setPosition(visibleSize.width*0.5000, visibleSize.height*0.9331);
@@ -56,8 +64,8 @@ bool ContrlScene::initBtn(){
     EditBox* peb = EditBox::create(Size(sx, sy), ss);
     peb->setPosition(Vec2(visibleSize.width*0.5000, visibleSize.height*0.9331));
     peb->setTag(9001);
-    peb->setFont("Arial", 35);
-    peb->setPlaceholderFont("Arial", 25);
+    peb->setFontSize(35);
+    peb->setPlaceholderFontSize(25);
     peb->setFontColor(Color3B::BLACK);
     peb->setPlaceholderFontColor (Color3B::GRAY);
     peb->setPlaceHolder("输入设备序列号");
@@ -113,7 +121,7 @@ bool ContrlScene::initBtn(){
         fclose(fp);
     }
     fp = NULL;
-    
+
     Sprite* contrl = Sprite::create("control.png");
     contrl->setPosition(visibleSize.width*0.1688, visibleSize.height*0.0539);
     contrl->setTag(1000);
