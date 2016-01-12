@@ -114,7 +114,7 @@ void* ConfBtn::sendOrder(void* args){
     //前面设置了超时值，5秒后即使无响应也返回
     ssize_t recsize = recvfrom(sock, (void*)buf, 18, 0, (sockaddr*)&sa, &fromlen);
     
-    Label* lbl = (Label*)s_pConfScene->getChildByTag(9002);
+    Label* lbl = (Label*)s_pConfScene->getChildByTag(LBL);
     
     if(-1 == recsize /*|| buf[7] != bi.strOrd.at(7)*/){
         s_nConfSelBtnTag = 0;
@@ -133,7 +133,7 @@ void ConfBtn::unSel(){
 
 void ConfBtn::_sendOrder(){
     
-    Label* lbl = (Label*)s_pConfScene->getChildByTag(9002);
+    Label* lbl = (Label*)s_pConfScene->getChildByTag(LBL);
     
     if(Global::getNetErr()){
         lbl->setString("连接失败，请检查网络");

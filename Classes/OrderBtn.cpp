@@ -89,7 +89,7 @@ bool OrderBtn::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event)
 
 void OrderBtn::_sendOrder(){
     
-    Label* lbl = (Label*)s_pHomeScene->getChildByTag(9002);
+    Label* lbl = (Label*)s_pHomeScene->getChildByTag(LBL);
     
     if(Global::getNetErr()){
         lbl->setString("连接失败，请检查网络");
@@ -122,15 +122,21 @@ void* OrderBtn::sendOrder(void* args){
     socklen_t fromlen;
     //前面设置了超时值，5秒后即使无响应也返回
     ssize_t recsize = recvfrom(sock, (void*)buf, 18, 0, (sockaddr*)&sa, &fromlen);
-    
-    Label* lbl = (Label*)s_pHomeScene->getChildByTag(9002);
-    
+
+    Label* lbl = (Label*)s_pHomeScene->getChildByTag(LBL);
+
     if(-1 == recsize /*|| buf[7] != bi.strOrd.at(7)*/){
         s_nOrderSelBtnTag = 0;
         if(s_pHomeScene->getChildByTag(bi.tag)->isVisible()){
             s_pHomeScene->getChildByTag(bi.tag)->setVisible(false);
         }
         lbl->setString("网络超时");
+    }else if(0 == strcmp("Device not found", buf)){
+        s_nOrderSelBtnTag = 0;
+        if(s_pHomeScene->getChildByTag(bi.tag)->isVisible()){
+            s_pHomeScene->getChildByTag(bi.tag)->setVisible(false);
+        }
+        lbl->setString("未找到设备");
     }
     return NULL;
 }

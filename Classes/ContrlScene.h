@@ -9,16 +9,12 @@
 #ifndef ContrlScene_hpp
 #define ContrlScene_hpp
 
-#include <cocos2d.h>
+#include "cocos2d.h"
+#include "ui/CocosGUI.h"
 USING_NS_CC;
+#include "string"
 
-#include <cocos-ext.h>
-USING_NS_CC_EXT;
-
-#include <string>
-using namespace std;
-
-class ContrlScene : public cocos2d::Layer, public EditBoxDelegate
+class ContrlScene : public cocos2d::Layer, public ui::EditBoxDelegate
 {
 public:
     static cocos2d::Scene* createScene();
@@ -26,16 +22,16 @@ public:
     CREATE_FUNC(ContrlScene);
     
     virtual bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
-    virtual void editBoxEditingDidBegin(EditBox*);
-    virtual void editBoxEditingDidEnd(EditBox*);
-    virtual void editBoxTextChanged(EditBox*, const std::string&);
-    virtual void editBoxReturn(EditBox*);
+    virtual void editBoxEditingDidBegin(ui::EditBox*);
+    virtual void editBoxEditingDidEnd(ui::EditBox*);
+    virtual void editBoxTextChanged(ui::EditBox*, const std::string&);
+    virtual void editBoxReturn(ui::EditBox*);
     
 private:
-    string m_strSnPath;
+    std::string m_strSnPath;
     
     bool initBtn();
-    void setGlobalSn(string);
+    void setGlobalSn(std::string);
 };
 
 #endif /* ContrlScene_hpp */

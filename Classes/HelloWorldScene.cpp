@@ -27,14 +27,8 @@ bool HelloWorld::init()
     listener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
-    EventListenerKeyboard* kbListener = EventListenerKeyboard::create();
-    kbListener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(kbListener, this);
-    
-    
     OrderBtn::s_pHomeScene = this;
-    
-    //m_nCurBtnTag = 0;
+
     bool rt = initBtn();
     return rt;
 }
@@ -44,7 +38,7 @@ bool HelloWorld::initBtn(){
     Sprite* bg = Sprite::create("home_bg.png");
     bg->setPosition(visibleSize/2);
 
-    bg->setTag(90);
+    bg->setTag(HOMEBG);
     addChild(bg);
     
     Label* lblSn = Label::create();
@@ -52,21 +46,21 @@ bool HelloWorld::initBtn(){
     lblSn->setTextColor(Color4B::WHITE);
     lblSn->setSystemFontSize(28.00);
     lblSn->setHorizontalAlignment(TextHAlignment::CENTER);
-    lblSn->setPosition(visibleSize.width*0.1700, visibleSize.height*0.9331);
+    lblSn->setPosition(visibleSize.width*0.1550, visibleSize.height*0.9331);
     addChild(lblSn);
 
     //editbox
-    Scale9Sprite* ss = Scale9Sprite::create("edit_box.png");
+    ui::Scale9Sprite* ss = ui::Scale9Sprite::create("edit_box.png");
     ss->setPosition(visibleSize.width*0.5000, visibleSize.height*0.9331);
-    ss->setTag(9000);
+    ss->setTag(EDITBOXPNG);
     //addChild(ss);
     Sprite* s = ss->getSprite();
     float sx = s->getTextureRect().getMaxX();
     float sy = s->getTextureRect().getMaxY();
 
-    EditBox* peb = EditBox::create(Size(sx, sy), ss);
+    ui::EditBox* peb = ui::EditBox::create(Size(sx, sy), ss);
     peb->setPosition(Vec2(visibleSize.width*0.5000, visibleSize.height*0.9331));
-    peb->setTag(9001);
+    peb->setTag(EDITBOX);
     peb->setFontSize(35);
     peb->setPlaceholderFontSize(25);
     peb->setFontColor(Color3B::BLACK);
@@ -90,7 +84,7 @@ bool HelloWorld::initBtn(){
     }
 
     //read sn
-    string documentPath = CCFileUtils::sharedFileUtils()->getWritablePath();
+    string documentPath = FileUtils::sharedFileUtils()->getWritablePath();
     string fileName = "kjSn";
     m_strSnPath = documentPath + fileName;
     
@@ -103,7 +97,6 @@ bool HelloWorld::initBtn(){
             memset(pBuf, 0, nLen+1);
             rewind(fp);
             nLen = fread(pBuf, sizeof(char), nLen, fp);
-            //log("====%s=======%ld======", pBuf, nLen);
             string strTmp;
             strTmp.assign(pBuf, 12);
             peb->setText(pBuf);
@@ -117,14 +110,19 @@ bool HelloWorld::initBtn(){
     fp = NULL;
 
     Sprite* contrl = Sprite::create("control.png");
-    contrl->setPosition(visibleSize.width*0.1688, visibleSize.height*0.0539);
-    contrl->setTag(1000);
+    contrl->setPosition(visibleSize.width*0.5000, visibleSize.height*0.0579);
+    contrl->setTag(CTRL);
     addChild(contrl);
     
     Sprite* conf = Sprite::create("conf.png");
-    conf->setPosition(visibleSize.width*0.8406, visibleSize.height*0.0574);
-    conf->setTag(2000);
+    conf->setPosition(visibleSize.width*0.8406, visibleSize.height*0.0579);
+    conf->setTag(CFG);
     addChild(conf);
+    
+    Sprite* exit = Sprite::create("exit.png");
+    exit->setPosition(visibleSize.width*0.1672, visibleSize.height*0.0552);
+    exit->setTag(EXIT);
+    addChild(exit);
     
     Label* lbl = Label::create();
     lbl->setString("");
@@ -132,8 +130,8 @@ bool HelloWorld::initBtn(){
     lbl->enableShadow();
     lbl->setSystemFontSize(25.00);
     lbl->setHorizontalAlignment(TextHAlignment::CENTER);
-    lbl->setPosition(visibleSize.width*0.5000, visibleSize.height*0.0565);
-    lbl->setTag(9002);
+    lbl->setPosition(visibleSize.width*0.5000, visibleSize.height*0.1430);
+    lbl->setTag(LBL);
     addChild(lbl);
     
     return true;
@@ -142,40 +140,44 @@ bool HelloWorld::initBtn(){
 bool HelloWorld::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event){
     Vec2 touchLocation = convertTouchToNodeSpace(touch);
 
-    if(getChildByTag(1000)->getBoundingBox().containsPoint(touchLocation)){
+    if(getChildByTag(CTRL)->getBoundingBox().containsPoint(touchLocation)){
         auto trans = TransitionMoveInR::create(0.5, ContrlScene::createScene());
         Director::getInstance()->replaceScene(trans);
-    }
-    if(getChildByTag(2000)->getBoundingBox().containsPoint(touchLocation)){
+    }else if(getChildByTag(CFG)->getBoundingBox().containsPoint(touchLocation)){
         auto trans = TransitionMoveInR::create(0.5, ConfScene::createScene());
         Director::getInstance()->replaceScene(trans);
+    }else if(getChildByTag(EXIT)->getBoundingBox().containsPoint(touchLocation)){
+        Director::getInstance()->stopAnimation();
+        Global::closeSock();
+        Director::getInstance()->end();
+        exit(0);
     }
 
-    EditBox* tf = (EditBox*)getChildByTag(9001);
+    ui::EditBox* tf = (ui::EditBox*)getChildByTag(EDITBOX);
     if(tf->getBoundingBox().containsPoint(touchLocation)){
-        CCDirector::sharedDirector()->getOpenGLView()->setIMEKeyboardState(true);
+        tf->attachWithIME();
     }else{
-        CCDirector::sharedDirector()->getOpenGLView()->setIMEKeyboardState(false);
+        tf->detachWithIME();
     }
     
     return false;
 }
 
-void HelloWorld::editBoxEditingDidBegin(cocos2d::extension::EditBox* editBox)
+void HelloWorld::editBoxEditingDidBegin(ui::EditBox* editBox)
 {}
 
-void HelloWorld::editBoxEditingDidEnd(cocos2d::extension::EditBox* editBox)
+void HelloWorld::editBoxEditingDidEnd(ui::EditBox* editBox)
 {}
 
-void HelloWorld::editBoxTextChanged(cocos2d::extension::EditBox* editBox, const std::string &text)
+void HelloWorld::editBoxTextChanged(ui::EditBox* editBox, const std::string &text)
 {
     if(text.length() != 12) return;
-    
+
     setGlobalSn(text);
     setBtnOrd();
 }
 
-void HelloWorld::editBoxReturn(cocos2d::extension::EditBox *editBox)
+void HelloWorld::editBoxReturn(ui::EditBox *editBox)
 {}
 
 void HelloWorld::setGlobalSn(string strSn){
@@ -184,7 +186,6 @@ void HelloWorld::setGlobalSn(string strSn){
     fputs(strSn.c_str(), fp);
     fclose(fp);
     fp = NULL;
-    
     Global::setSn(strSn);
 }
 

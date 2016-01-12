@@ -35,7 +35,7 @@
 #include "Global.h"
 #include <stdlib.h>
 
-string Global::g_strSn = "";
+std::string Global::g_strSn = "";
 int Global::g_socket = 0;
 bool Global::g_bNetErr = false;
 sockaddr_in Global::g_sa = {0, 0, 0, {0}};
@@ -62,7 +62,7 @@ bool Global::initSock(){
     localAddr.sin_family = AF_INET;
     localAddr.sin_port = 6000;
     localAddr.sin_addr.s_addr = INADDR_ANY;
-    if(-1 == ::bind(g_socket, (sockaddr*)&localAddr, sizeof(sockaddr))){
+    if(-1 == bind(g_socket, (sockaddr*)&localAddr, sizeof(sockaddr))){
         closeSock();
         g_bNetErr = true;
         return false;
@@ -101,10 +101,10 @@ void Global::closeSock(){
     }
 }
 
-void Global::setSn(string& dsn){
+void Global::setSn(std::string& dsn){
     //0 2 4 6 8 10
     //将12个设备字符转换成6个16进制ascii码保存到1-6个字
-    string strArray[6];
+    std::string strArray[6];
     for(int i=0; i<6; i++){
         strArray[i].assign(dsn, i*2, 2);
     }
@@ -119,7 +119,7 @@ void Global::setSn(string& dsn){
     g_strSn.assign(sn, 6);
 }
 
-string Global::getOrd(char mode, char ord){
+std::string Global::getOrd(char mode, char ord){
     
     //接收2个参数，分别为模式和命令，处于第7、8字节
     char strOrd[18] = {0};
@@ -161,7 +161,7 @@ string Global::getOrd(char mode, char ord){
     strOrd[16] = crc >> 8;
     strOrd[17] = crc & 0x00ff;
 
-    string str;
+    std::string str;
     str.assign(strOrd, 18);
 
     return str;
