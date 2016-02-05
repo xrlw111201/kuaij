@@ -27,8 +27,10 @@ public:
     
 private:
     static int s_nOrderSelBtnTag;
+    
     int m_tag;
     string m_strOrder;
+    
     float m_scrWidth;
     float m_scrHeight;
     pthread_t m_pid;

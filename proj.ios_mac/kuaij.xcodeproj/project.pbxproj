@@ -61,6 +61,11 @@
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		8822EF861C437B6A00D786EC /* exit.png in Resources */ = {isa = PBXBuildFile; fileRef = 8822EF851C437B6A00D786EC /* exit.png */; };
+		88579E761C61FB5F00D271DE /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 88579E751C61FB5F00D271DE /* list.png */; };
+		88579E781C61FBDF00D271DE /* innernet.png in Resources */ = {isa = PBXBuildFile; fileRef = 88579E771C61FBDF00D271DE /* innernet.png */; };
+		885E23661C63240D007A1569 /* edit_box_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 885E23651C63240D007A1569 /* edit_box_gray.png */; };
+		886F3F561C58631800873F26 /* GetIp.m in Sources */ = {isa = PBXBuildFile; fileRef = 886F3F551C58631800873F26 /* GetIp.m */; };
+		886F3F5A1C58633E00873F26 /* GetIpSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = 886F3F581C58633E00873F26 /* GetIpSprite.mm */; };
 		88F5F0831C2BBB2F00DCDD73 /* btn100.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F5F0611C2BBB2F00DCDD73 /* btn100.png */; };
 		88F5F0841C2BBB2F00DCDD73 /* btn100.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F5F0611C2BBB2F00DCDD73 /* btn100.png */; };
 		88F5F0851C2BBB2F00DCDD73 /* btn101.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F5F0621C2BBB2F00DCDD73 /* btn101.png */; };
@@ -248,6 +253,13 @@
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8822EF851C437B6A00D786EC /* exit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exit.png; sourceTree = "<group>"; };
+		88579E751C61FB5F00D271DE /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list.png; sourceTree = "<group>"; };
+		88579E771C61FBDF00D271DE /* innernet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = innernet.png; sourceTree = "<group>"; };
+		885E23651C63240D007A1569 /* edit_box_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_box_gray.png; sourceTree = "<group>"; };
+		886F3F551C58631800873F26 /* GetIp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetIp.m; sourceTree = "<group>"; };
+		886F3F571C58632C00873F26 /* GetIp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetIp.h; sourceTree = "<group>"; };
+		886F3F581C58633E00873F26 /* GetIpSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GetIpSprite.mm; sourceTree = "<group>"; };
+		886F3F591C58633E00873F26 /* GetIpSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetIpSprite.h; sourceTree = "<group>"; };
 		88F5F0611C2BBB2F00DCDD73 /* btn100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn100.png; sourceTree = "<group>"; };
 		88F5F0621C2BBB2F00DCDD73 /* btn101.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn101.png; sourceTree = "<group>"; };
 		88F5F0631C2BBB2F00DCDD73 /* btn102.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn102.png; sourceTree = "<group>"; };
@@ -521,6 +533,10 @@
 				88F5F0D71C2BBB6700DCDD73 /* ConfBtn.h */,
 				88F5F0DB1C2BBB6700DCDD73 /* ContrlBtn.cpp */,
 				88F5F0DC1C2BBB6700DCDD73 /* ContrlBtn.h */,
+				886F3F551C58631800873F26 /* GetIp.m */,
+				886F3F571C58632C00873F26 /* GetIp.h */,
+				886F3F581C58633E00873F26 /* GetIpSprite.mm */,
+				886F3F591C58633E00873F26 /* GetIpSprite.h */,
 			);
 			name = SubClasses;
 			sourceTree = "<group>";
@@ -568,6 +584,9 @@
 		88F5F0F21C2BBCFB00DCDD73 /* home_view */ = {
 			isa = PBXGroup;
 			children = (
+				885E23651C63240D007A1569 /* edit_box_gray.png */,
+				88579E771C61FBDF00D271DE /* innernet.png */,
+				88579E751C61FB5F00D271DE /* list.png */,
 				88F5F0D31C2BBB5100DCDD73 /* home_bg.png */,
 				88F5F0CA1C2BBB4400DCDD73 /* edit_box.png */,
 				88F5F0611C2BBB2F00DCDD73 /* btn100.png */,
@@ -690,6 +709,7 @@
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				88F5F0B51C2BBB2F00DCDD73 /* btn501.png in Resources */,
+				88579E781C61FBDF00D271DE /* innernet.png in Resources */,
 				88F5F0C31C2BBB2F00DCDD73 /* btn603.png in Resources */,
 				88F5F0F41C2BBD9200DCDD73 /* conf.png in Resources */,
 				88F5F09B1C2BBB2F00DCDD73 /* btn302.png in Resources */,
@@ -722,6 +742,7 @@
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
 				88F5F0871C2BBB2F00DCDD73 /* btn102.png in Resources */,
 				88F5F0851C2BBB2F00DCDD73 /* btn101.png in Resources */,
+				885E23661C63240D007A1569 /* edit_box_gray.png in Resources */,
 				88F5F0971C2BBB2F00DCDD73 /* btn300.png in Resources */,
 				88F5F0951C2BBB2F00DCDD73 /* btn204.png in Resources */,
 				88F5F0931C2BBB2F00DCDD73 /* btn203.png in Resources */,
@@ -736,6 +757,7 @@
 				8822EF861C437B6A00D786EC /* exit.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				88F5F0C51C2BBB2F00DCDD73 /* btn604.png in Resources */,
+				88579E761C61FB5F00D271DE /* list.png in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
 				88F5F0D41C2BBB5100DCDD73 /* home_bg.png in Resources */,
 				46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */,
@@ -826,7 +848,9 @@
 				88F5F0E11C2BBB6700DCDD73 /* ConfBtn.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
+				886F3F561C58631800873F26 /* GetIp.m in Sources */,
 				88F5F0E71C2BBB6700DCDD73 /* ContrlScene.cpp in Sources */,
+				886F3F5A1C58633E00873F26 /* GetIpSprite.mm in Sources */,
 				88F5F0E31C2BBB6700DCDD73 /* ConfScene.cpp in Sources */,
 				88F5F0E51C2BBB6700DCDD73 /* ContrlBtn.cpp in Sources */,
 				88F5F0E91C2BBB6700DCDD73 /* Global.cpp in Sources */,

@@ -54,8 +54,8 @@ bool ConfScene::initBtn(){
     
     //editbox
     ui::Scale9Sprite* ss = ui::Scale9Sprite::create("edit_box.png");
-    ss->setPosition(visibleSize.width*0.5000, visibleSize.height*0.9331);
-    ss->setTag(EDITBOXPNG);
+//    ss->setPosition(visibleSize.width*0.5000, visibleSize.height*0.9331);
+//    ss->setTag(EDITBOXPNG);
     //addChild(ss);
     Sprite* s = ss->getSprite();
     float sx = s->getTextureRect().getMaxX();
@@ -172,9 +172,9 @@ void ConfScene::editBoxEditingDidEnd(ui::EditBox* editBox)
 
 void ConfScene::editBoxTextChanged(ui::EditBox* editBox, const std::string &text)
 {
-    if(text.length() != 12) return;
-    setGlobalSn(text);
-    setBtnOrd();
+//    if(text.length() != 12) return;
+//    setGlobalSn(text);
+//    setBtnOrd();
 }
 
 void ConfScene::editBoxReturn(ui::EditBox *editBox)

@@ -31,14 +31,37 @@
  }
  crc = crc & 0xffff;
 */
-#include <unistd.h>
+
 #include "Global.h"
 #include <stdlib.h>
+#include "cocos2d.h"
+USING_NS_CC;
 
 std::string Global::g_strSn = "";
+std::string Global::g_strIp = "";
+
 int Global::g_socket = 0;
 bool Global::g_bNetErr = false;
 sockaddr_in Global::g_sa = {0, 0, 0, {0}};
+bool Global::g_bInnerNet = false;
+std::vector<std::string> Global::g_vSnIp;
+std::string Global::g_fileName = "";
+
+std::string Global::getIp(){
+    return g_strIp;
+}
+
+bool Global::isRefrain(std::string strSn){
+    bool b = false;
+    std::vector<std::string>::iterator it;
+    for(it=g_vSnIp.begin(); it!=g_vSnIp.end(); it++){
+        if(it->substr(0, 6) == strSn){
+            b = true;
+            break;
+        }
+    }
+    return b;
+}
 
 int Global::getSocket(){
     return g_socket;
@@ -53,6 +76,8 @@ bool Global::getNetErr(){
 }
 
 bool Global::initSock(){
+    
+    g_fileName = FileUtils::sharedFileUtils()->getWritablePath() + "kjSn";
 
     g_socket = socket(AF_INET, SOCK_DGRAM, 0);
 
@@ -60,7 +85,7 @@ bool Global::initSock(){
     sockaddr_in localAddr;
     memset(&localAddr, 0, sizeof(sockaddr_in));
     localAddr.sin_family = AF_INET;
-    localAddr.sin_port = 6000;
+    localAddr.sin_port = htons(6000);
     localAddr.sin_addr.s_addr = INADDR_ANY;
     if(-1 == bind(g_socket, (sockaddr*)&localAddr, sizeof(sockaddr))){
         closeSock();
@@ -100,7 +125,7 @@ void Global::closeSock(){
         close(g_socket);
     }
 }
-
+/*
 void Global::setSn(std::string& dsn){
     //0 2 4 6 8 10
     //将12个设备字符转换成6个16进制ascii码保存到1-6个字
@@ -117,6 +142,14 @@ void Global::setSn(std::string& dsn){
     }
 
     g_strSn.assign(sn, 6);
+}
+*/
+void Global::setSn(std::string dsn){
+    g_strSn = dsn.substr(0, 6);
+    log("sn = %s", g_strSn.c_str());
+    int index = dsn.find(':') + 1;
+    g_strIp = dsn.substr(index, dsn.length()-index);
+    log("ip = %s", g_strIp.c_str());
 }
 
 std::string Global::getOrd(char mode, char ord){

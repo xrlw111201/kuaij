@@ -55,8 +55,8 @@ bool ContrlScene::initBtn(){
     
     //editbox
     ui::Scale9Sprite* ss = ui::Scale9Sprite::create("edit_box.png");
-    ss->setPosition(visibleSize.width*0.5000, visibleSize.height*0.9331);
-    ss->setTag(EDITBOXPNG);
+//    ss->setPosition(visibleSize.width*0.5000, visibleSize.height*0.9331);
+//    ss->setTag(EDITBOXPNG);
     //addChild(ss);
     Sprite* s = ss->getSprite();
     float sx = s->getTextureRect().getMaxX();
@@ -173,16 +173,16 @@ void ContrlScene::editBoxEditingDidEnd(ui::EditBox* editBox)
 
 void ContrlScene::editBoxTextChanged(ui::EditBox* editBox, const std::string &text)
 {
-    if(text.length() != 12) return;
-    setGlobalSn(text);
+//    if(text.length() != 12) return;
+//    setGlobalSn(text);
 }
 
 void ContrlScene::editBoxReturn(ui::EditBox *editBox)
 {}
 
 void ContrlScene::setGlobalSn(std::string strSn){
-    FILE* fp = fopen(m_strSnPath.c_str(), "w+");
-    fputs(strSn.c_str(), fp);
-    fclose(fp);
-    fp = NULL;
+//    FILE* fp = fopen(m_strSnPath.c_str(), "w+");
+//    fputs(strSn.c_str(), fp);
+//    fclose(fp);
+//    fp = NULL;
 }

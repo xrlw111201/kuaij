@@ -17,6 +17,7 @@ int OrderBtn::s_nOrderSelBtnTag = 0;
 void OrderBtn::setProperties(int index){
     m_tag = index;
     m_strOrder = "";
+    
     memset(&m_pid, 0, sizeof(pthread_t));
     
     Size size = Director::getInstance()->getVisibleSize();
@@ -107,7 +108,20 @@ void OrderBtn::_sendOrder(){
 void* OrderBtn::sendOrder(void* args){
 
     int sock = Global::getSocket();
-    sockaddr_in sa = Global::getAddr();
+    sockaddr_in sa;
+    memset(&sa, 0, sizeof(sockaddr));
+    
+    sockaddr_in rcvSa;
+    memset(&rcvSa, 0, sizeof(sockaddr));
+    
+    if(!Global::g_bInnerNet){
+        sa = Global::getAddr();
+    }else{
+       
+        sa.sin_family = AF_INET;
+        sa.sin_port = htons(1985);
+        sa.sin_addr.s_addr = inet_addr(Global::getIp().c_str());
+    }
     
     BTNINFO bi = *(BTNINFO*)args;
 //    char tmp[20] = {0};
@@ -121,7 +135,7 @@ void* OrderBtn::sendOrder(void* args){
     char buf[18] = {0};
     socklen_t fromlen;
     //前面设置了超时值，5秒后即使无响应也返回
-    ssize_t recsize = recvfrom(sock, (void*)buf, 18, 0, (sockaddr*)&sa, &fromlen);
+    ssize_t recsize = recvfrom(sock, (void*)buf, 18, 0, (sockaddr*)&rcvSa, &fromlen);
 
     Label* lbl = (Label*)s_pHomeScene->getChildByTag(LBL);
 
