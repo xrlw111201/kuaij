@@ -55,7 +55,7 @@ bool Global::isRefrain(std::string strSn){
     bool b = false;
     std::vector<std::string>::iterator it;
     for(it=g_vSnIp.begin(); it!=g_vSnIp.end(); it++){
-        if(it->substr(0, 6) == strSn){
+        if(it->substr(0, 12) == strSn){
             b = true;
             break;
         }
@@ -75,12 +75,13 @@ bool Global::getNetErr(){
     return g_bNetErr;
 }
 
-bool Global::initSock(){
+void Global::initSock(){
     
     g_fileName = FileUtils::sharedFileUtils()->getWritablePath() + "kjSn";
 
     g_socket = socket(AF_INET, SOCK_DGRAM, 0);
 
+    log("******* socket = %d *********", g_socket);
     //绑定本地端口
     sockaddr_in localAddr;
     memset(&localAddr, 0, sizeof(sockaddr_in));
@@ -88,9 +89,10 @@ bool Global::initSock(){
     localAddr.sin_port = htons(6000);
     localAddr.sin_addr.s_addr = INADDR_ANY;
     if(-1 == bind(g_socket, (sockaddr*)&localAddr, sizeof(sockaddr))){
+        log("~~~~~~~~bind 6000 failed.~~~~~~~~~");
         closeSock();
         g_bNetErr = true;
-        return false;
+        return;
     }
     
     //设置recvfrom超时值
@@ -101,11 +103,11 @@ bool Global::initSock(){
     memset(&g_sa, 0, sizeof(sockaddr_in));
     g_sa.sin_family = AF_INET;
     g_sa.sin_port = htons(6000);
-    
+    /*
     hostent* pHst = gethostbyname("gzkjhbkj.com");
     if(NULL == pHst){
-        closeSock();
-        g_bNetErr = true;
+//        closeSock();
+//        g_bNetErr = true;
         return false;
     }
     char** alist = NULL;
@@ -113,11 +115,11 @@ bool Global::initSock(){
     for(alist = pHst->h_addr_list; *alist != NULL; alist++){
         inet_ntop(pHst->h_addrtype, *alist, str, 32);
     }
+    */
     
-    //    int res = inet_pton(AF_INET, "101.200.89.64", &m_sa.sin_addr);
-    inet_pton(AF_INET, str, &g_sa.sin_addr);
-    
-    return true;
+//    inet_pton(AF_INET, str, &g_sa.sin_addr);
+
+    int res = inet_pton(AF_INET, "101.200.89.64", &g_sa.sin_addr);
 }
 
 void Global::closeSock(){
@@ -145,7 +147,22 @@ void Global::setSn(std::string& dsn){
 }
 */
 void Global::setSn(std::string dsn){
-    g_strSn = dsn.substr(0, 6);
+    //0 2 4 6 8 10
+    //将12个设备字符转换成6个16进制ascii码保存到1-6个字
+    std::string strArray[6];
+    for(int i=0; i<6; i++){
+        strArray[i].assign(dsn, i*2, 2);
+    }
+    char* pos;
+    
+    char sn[6] = {0};
+    
+    for(int j=0; j<6; j++){
+        sn[j] = strtol(strArray[j].c_str(), &pos, 16);
+    }
+    
+    g_strSn.assign(sn, 6);
+//    g_strSn = dsn.substr(0, 6);
     log("sn = %s", g_strSn.c_str());
     int index = dsn.find(':') + 1;
     g_strIp = dsn.substr(index, dsn.length()-index);

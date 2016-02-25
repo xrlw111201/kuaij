@@ -16,22 +16,25 @@ public:
     CREATE_FUNC(HelloWorld);
 
     virtual bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
+    virtual void onTouchEnded(cocos2d::Touch*, cocos2d::Event*);
     
     virtual void editBoxEditingDidBegin(ui::EditBox*);
     virtual void editBoxEditingDidEnd(ui::EditBox*);
     virtual void editBoxTextChanged(ui::EditBox*, const std::string&);
     virtual void editBoxReturn(ui::EditBox*);
-    
+    void setBtnUp();
 
-    
 private:
-    static bool s_bWait;
+//    static bool s_bWait;
     std::map<Sprite*, Label*> m_mpLstCtrl;
     //int m_nCurBtnTag;
     //int m_socket;
 //    std::string m_strSnPath;
     pthread_t m_pidQuery;
     pthread_t m_pidRsp;
+    bool m_bInetEnabel;
+    
+    
     static void* sendQuery(void*);
     static void* recvRsp(void*);
     
@@ -44,6 +47,8 @@ private:
     void initSnLstFromVct();
     void getSnLstFromFile();
     void cleanLstCtrl();
+    
+    void searchCompleted(float);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

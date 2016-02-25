@@ -12,7 +12,7 @@
 #include <unistd.h>
 
 Node* OrderBtn::s_pHomeScene = NULL;
-int OrderBtn::s_nOrderSelBtnTag = 0;
+//int OrderBtn::s_nOrderSelBtnTag = 0;
 
 void OrderBtn::setProperties(int index){
     m_tag = index;
@@ -39,8 +39,9 @@ void OrderBtn::setBi(){
 
 bool OrderBtn::init(){
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true); // not need
+//    listener->setSwallowTouches(true); // not need
     listener->onTouchBegan = CC_CALLBACK_2(OrderBtn::onTouchBegan, this);
+    listener->onTouchEnded = CC_CALLBACK_2(OrderBtn::onTouchEnded, this);
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     return true;
@@ -60,45 +61,39 @@ void OrderBtn::setBtnPos(){
         case 204:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.2368); setVisible(false); break;}
         default: break;
     }
-    if(m_tag == s_nOrderSelBtnTag){
-        setVisible(true);
-    }
+//    if(m_tag == s_nOrderSelBtnTag){
+//        setVisible(true);
+//    }
 }
 
 bool OrderBtn::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event){
     
-    if(m_tag < 200) return false;
+    if(m_tag < 200) return true;
     Vec2 localTouch = touch->getLocation();
     if(getBoundingBox().containsPoint(localTouch)){
-        if(0 == OrderBtn::s_nOrderSelBtnTag){
-            setVisible(true);
-            OrderBtn::s_nOrderSelBtnTag = m_tag;
-            _sendOrder();
-        }
-        else if(OrderBtn::s_nOrderSelBtnTag == m_tag){
-            setVisible(false);
-            OrderBtn::s_nOrderSelBtnTag = 0;
-        }else{
-            getParent()->getChildByTag(OrderBtn::s_nOrderSelBtnTag)->setVisible(false);
-            setVisible(true);
-            OrderBtn::s_nOrderSelBtnTag = m_tag;
-            _sendOrder();
-        }
+        setVisible(true);
     }
-    return false;
+    return true;
 }
 
+void OrderBtn::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event){
+    if(m_tag < 200) return;
+    Vec2 localTouch = touch->getLocation();
+    if(getBoundingBox().containsPoint(localTouch)){
+        //setVisible(false);
+        ((HelloWorld*)s_pHomeScene)->setBtnUp();
+        _sendOrder();
+    }
+}
 void OrderBtn::_sendOrder(){
     
     Label* lbl = (Label*)s_pHomeScene->getChildByTag(LBL);
     
     if(Global::getNetErr()){
         lbl->setString("连接失败，请检查网络");
-        unSel();
     }
     else if("" == m_strOrder){
         lbl->setString("请先指定设备序列号");
-        unSel();
     }else{
         lbl->setString("");
         pthread_create(&m_pid, NULL, sendOrder, &m_bi);
@@ -140,24 +135,19 @@ void* OrderBtn::sendOrder(void* args){
     Label* lbl = (Label*)s_pHomeScene->getChildByTag(LBL);
 
     if(-1 == recsize /*|| buf[7] != bi.strOrd.at(7)*/){
-        s_nOrderSelBtnTag = 0;
+//        s_nOrderSelBtnTag = 0;
         if(s_pHomeScene->getChildByTag(bi.tag)->isVisible()){
             s_pHomeScene->getChildByTag(bi.tag)->setVisible(false);
         }
-        lbl->setString("网络超时");
+//        lbl->setString("网络超时");
     }else if(0 == strcmp("Device not found", buf)){
-        s_nOrderSelBtnTag = 0;
+//        s_nOrderSelBtnTag = 0;
         if(s_pHomeScene->getChildByTag(bi.tag)->isVisible()){
             s_pHomeScene->getChildByTag(bi.tag)->setVisible(false);
         }
         lbl->setString("未找到设备");
     }
     return NULL;
-}
-
-void OrderBtn::unSel(){
-    s_nOrderSelBtnTag = 0;
-    setVisible(false);
 }
 
 void OrderBtn::setOrd(){

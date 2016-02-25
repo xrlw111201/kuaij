@@ -22,11 +22,12 @@ typedef struct btn_info{
 class OrderBtn: public Sprite{
 public:
     virtual bool init();
-    virtual bool onTouchBegan(Touch*, Event*);
+    virtual bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
+    virtual void onTouchEnded(cocos2d::Touch*, cocos2d::Event*);
     CREATE_FUNC(OrderBtn);
     
 private:
-    static int s_nOrderSelBtnTag;
+//    static int s_nOrderSelBtnTag;
     
     int m_tag;
     string m_strOrder;
@@ -40,7 +41,6 @@ private:
     static void* sendOrder(void*);
     void _sendOrder();
     void setBi();
-    void unSel();
     
 public:
     static Node* s_pHomeScene;
