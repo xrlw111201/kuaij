@@ -47,6 +47,26 @@ bool Global::g_bInnerNet = false;
 std::vector<std::string> Global::g_vSnIp;
 std::string Global::g_fileName = "";
 
+pthread_t Global::s_pid = {0};
+
+void* Global::parseDomain(void* args){
+    addrinfo hints;
+    memset(&hints, 0, sizeof(addrinfo));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_DGRAM;
+    
+    addrinfo* pResult = NULL;
+    
+    int r = getaddrinfo("gzkjhbkj.com", "6000", &hints, &pResult);
+    if(0 != r){
+        log("parse Domain failed.");
+    }else{
+        g_sa = *(sockaddr_in*)(pResult->ai_addr);
+        freeaddrinfo(pResult);
+    }
+    return NULL;
+}
+
 std::string Global::getIp(){
     return g_strIp;
 }
@@ -100,26 +120,20 @@ void Global::initSock(){
     tv_out.tv_sec = 5;//等待5秒
     tv_out.tv_usec = 0;
     setsockopt(g_socket, SOL_SOCKET, SO_RCVTIMEO, &tv_out, sizeof(tv_out));
+    
+    //填充远程服务器地址信息
+    /*
+    //（1）直接写服务器地址
     memset(&g_sa, 0, sizeof(sockaddr_in));
     g_sa.sin_family = AF_INET;
     g_sa.sin_port = htons(6000);
-    /*
-    hostent* pHst = gethostbyname("gzkjhbkj.com");
-    if(NULL == pHst){
-//        closeSock();
-//        g_bNetErr = true;
-        return false;
-    }
-    char** alist = NULL;
-    char str[32] = {0};
-    for(alist = pHst->h_addr_list; *alist != NULL; alist++){
-        inet_ntop(pHst->h_addrtype, *alist, str, 32);
-    }
+    inet_pton(AF_INET, "101.200.89.64", &g_sa.sin_addr);
     */
     
-//    inet_pton(AF_INET, str, &g_sa.sin_addr);
-
-    int res = inet_pton(AF_INET, "101.200.89.64", &g_sa.sin_addr);
+    
+    //（2）或者做域名解析
+    pthread_create(&s_pid, NULL, parseDomain, NULL);
+    
 }
 
 void Global::closeSock(){

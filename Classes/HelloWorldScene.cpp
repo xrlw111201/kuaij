@@ -32,7 +32,7 @@ bool HelloWorld::init()
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true); // not need
     listener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
-    listener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
+//    listener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     OrderBtn::s_pHomeScene = this;
@@ -71,7 +71,7 @@ bool HelloWorld::initBtn(){
     float sy = s->getTextureRect().getMaxY();
 
     ui::EditBox* peb = ui::EditBox::create(Size(sx, sy), ss);
-    peb->setPosition(Vec2(visibleSize.width*0.3000, visibleSize.height*0.9331));
+    peb->setPosition(Vec2(visibleSize.width*0.3094, visibleSize.height*0.9542));
     peb->setTag(EDITBOX);
     peb->setFontSize(23);
     peb->setPlaceholderFontSize(23);
@@ -84,18 +84,18 @@ bool HelloWorld::initBtn(){
     
     //下拉按钮
     Sprite* pLst = Sprite::create("list.png");
-    pLst->setPosition(visibleSize.width*0.6172, visibleSize.height*0.9331);
+    pLst->setPosition(visibleSize.width*0.6188, visibleSize.height*0.9542);
     pLst->setTag(LST);
     addChild(pLst);
     
     //内网按钮
     Sprite* pNetG = Sprite::create("innernet_g.png");
-    pNetG->setPosition(visibleSize.width*0.8297, visibleSize.height*0.9331);
+    pNetG->setPosition(visibleSize.width*0.8469, visibleSize.height*0.9542);
     pNetG->setTag(INNERNET_G);
     addChild(pNetG);
     
     Sprite* pNet = Sprite::create("innernet.png");
-    pNet->setPosition(visibleSize.width*0.8297, visibleSize.height*0.9331);
+    pNet->setPosition(visibleSize.width*0.8469, visibleSize.height*0.9542);
     pNet->setTag(INNERNET);
     addChild(pNet);
 
@@ -112,52 +112,33 @@ bool HelloWorld::initBtn(){
         addChild(pob, 100);
     }
 
-    //read sn
-//    string documentPath = FileUtils::sharedFileUtils()->getWritablePath();
-//    string fileName = "kjSn";
-//    m_strSnPath = documentPath + fileName;
-
-//    log("filepath = %s", m_strSnPath.c_str());
-  /*
-    FILE* fp = fopen(Global::g_fileName.c_str(), "r");
-    if(NULL != fp){
-        fseek(fp, 0, SEEK_END);
-        long nLen = ftell(fp);
-        if(12 == nLen){
-            char* pBuf = new char[nLen+1];
-            memset(pBuf, 0, nLen+1);
-            rewind(fp);
-            nLen = fread(pBuf, sizeof(char), nLen, fp);
-            string strTmp;
-            strTmp.assign(pBuf, 12);
-            peb->setText(pBuf);
-            delete []pBuf;
-            pBuf = NULL;
-            Global::setSn(strTmp);
-            setBtnOrd();
-        }
-        fclose(fp);
-    }
-    fp = NULL;
-*/
     Sprite* contrl = Sprite::create("conf.png");
-    contrl->setPosition(visibleSize.width*0.7980, visibleSize.height*0.0579);
+    contrl->setPosition(visibleSize.width*0.5875, visibleSize.height*0.2465);
     contrl->setTag(CFG);
     addChild(contrl);
-    
-    
+
     Sprite* exit = Sprite::create("exit.png");
-    exit->setPosition(visibleSize.width*0.1672, visibleSize.height*0.0579);
+    exit->setPosition(visibleSize.width*0.4188, visibleSize.height*0.2465);
     exit->setTag(EXIT);
     addChild(exit);
     
+    Label* pBtnLbl = Label::create();
+    pBtnLbl->setString("");
+    pBtnLbl->setTextColor(Color4B(27, 142, 209, 255));
+//    pBtnLbl->enableShadow();
+    pBtnLbl->setSystemFontSize(60.00);
+    pBtnLbl->setHorizontalAlignment(TextHAlignment::CENTER);
+    pBtnLbl->setPosition(visibleSize.width*0.5000, visibleSize.height*0.4200);
+    pBtnLbl->setTag(BTN_LBL);
+    addChild(pBtnLbl);
+    
     Label* lbl = Label::create();
     lbl->setString("");
-    lbl->setTextColor(Color4B::WHITE);
-    lbl->enableShadow();
-    lbl->setSystemFontSize(25.00);
+    lbl->setTextColor(Color4B(0, 0, 70, 255));
+//    lbl->enableShadow();
+    lbl->setSystemFontSize(30.00);
     lbl->setHorizontalAlignment(TextHAlignment::CENTER);
-    lbl->setPosition(visibleSize.width*0.5000, visibleSize.height*0.0579);
+    lbl->setPosition(visibleSize.width*0.5000, visibleSize.height*0.3151);
     lbl->setTag(LBL);
     addChild(lbl);
 
@@ -211,9 +192,9 @@ bool HelloWorld::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_even
     return true;
 }
 
-void HelloWorld::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event){
-    setBtnUp();
-}
+//void HelloWorld::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event){
+//    setBtnUp();
+//}
 
 void HelloWorld::editBoxEditingDidBegin(ui::EditBox* editBox)
 {}
@@ -471,7 +452,7 @@ void HelloWorld::initSnLstFromVct(){
             s = Sprite::create("edit_box.png");
         }
         float sy = s->getTextureRect().getMaxY();
-        s->setPosition(Vec2(visibleSize.width*0.3000, visibleSize.height*0.9331 - sy*(i+1)));
+        s->setPosition(Vec2(visibleSize.width*0.3094, visibleSize.height*0.9542 - sy*(i+1)));
         s->setTag(FIRSTPNG+i);
         addChild(s, FIRSTPNG+i);
 
@@ -480,7 +461,7 @@ void HelloWorld::initSnLstFromVct(){
         lbl->setTextColor(Color4B::GRAY);
         lbl->setSystemFontSize(25.00);
         lbl->setHorizontalAlignment(TextHAlignment::CENTER);
-        lbl->setPosition(visibleSize.width*0.3000, visibleSize.height*0.9331-sy*(i+1));
+        lbl->setPosition(visibleSize.width*0.3094, visibleSize.height*0.9542-sy*(i+1));
         lbl->setTag(FIRSTLBL+i);
         addChild(lbl, FIRSTLBL+i);
 
@@ -522,9 +503,37 @@ void HelloWorld::getSnLstFromFile(){
     }
 }
 
-void HelloWorld::setBtnUp(){
-    for(int i=0; i<5; i++){
-        OrderBtn* pOb = (OrderBtn*)getChildByTag(i+200);
-        pOb->setVisible(false);
+void HelloWorld::setBtnUp(int index){
+    OrderBtn* pCur = (OrderBtn*)getChildByTag(index);
+    
+    Label* btnLbl = (Label*)getChildByTag(BTN_LBL);
+    string strCurBtn = "";
+    switch(index){
+        case(200):{strCurBtn = "智能模式"; break;}
+        case(201):{strCurBtn = "新风模式"; break;}
+        case(202):{strCurBtn = "室内循环"; break;}
+        case(203):{strCurBtn = "强力排烟"; break;}
+        case(204):{strCurBtn = "关机";    break;}
+        default: break;
+    }
+    btnLbl->setString(strCurBtn);
+    
+    if(index == 204){
+        bool b = pCur->isVisible();
+        pCur->setVisible(!b);
+        for(int j=0; j<4; j++){
+            OrderBtn* pOb = (OrderBtn*)getChildByTag(j+200);
+            pOb->setVisible(false);
+        }
+    }else{
+        pCur->setVisible(true);
+        OrderBtn* pShutDown = (OrderBtn*)getChildByTag(204);
+        pShutDown->setVisible(false);
+        for(int i=0; i<4; i++){
+            OrderBtn* pOb = (OrderBtn*)getChildByTag(i+200);
+            if(pCur != pOb){
+                pOb->setVisible(false);
+            }
+        }
     }
 }

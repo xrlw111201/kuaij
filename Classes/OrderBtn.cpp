@@ -41,7 +41,7 @@ bool OrderBtn::init(){
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
 //    listener->setSwallowTouches(true); // not need
     listener->onTouchBegan = CC_CALLBACK_2(OrderBtn::onTouchBegan, this);
-    listener->onTouchEnded = CC_CALLBACK_2(OrderBtn::onTouchEnded, this);
+//    listener->onTouchEnded = CC_CALLBACK_2(OrderBtn::onTouchEnded, this);
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     return true;
@@ -49,16 +49,16 @@ bool OrderBtn::init(){
 
 void OrderBtn::setBtnPos(){
     switch(m_tag){
-        case 100:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.7394); break;}
-        case 200:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.7394); setVisible(false); break;}
-        case 101:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.6144); break;}
-        case 201:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.6144); setVisible(false); break;}
-        case 102:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.4894); break;}
-        case 202:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.4894); setVisible(false); break;}
-        case 103:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.3627); break;}
-        case 203:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.3627); setVisible(false); break;}
-        case 104:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.2368); break;}
-        case 204:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.2368); setVisible(false); break;}
+        case 100:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.8046); break;}
+        case 200:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.8046); setVisible(false); break;}
+        case 101:{setPosition(m_scrWidth*0.7141, m_scrHeight*0.6901); break;}
+        case 201:{setPosition(m_scrWidth*0.7141, m_scrHeight*0.6901); setVisible(false); break;}
+        case 102:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.5669); break;}
+        case 202:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.5669); setVisible(false); break;}
+        case 103:{setPosition(m_scrWidth*0.2891, m_scrHeight*0.6901); break;}
+        case 203:{setPosition(m_scrWidth*0.2891, m_scrHeight*0.6901); setVisible(false); break;}
+        case 104:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.6867); break;}
+        case 204:{setPosition(m_scrWidth*0.5000, m_scrHeight*0.6867); setVisible(false); break;}
         default: break;
     }
 //    if(m_tag == s_nOrderSelBtnTag){
@@ -71,20 +71,23 @@ bool OrderBtn::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unused_event)
     if(m_tag < 200) return true;
     Vec2 localTouch = touch->getLocation();
     if(getBoundingBox().containsPoint(localTouch)){
-        setVisible(true);
+//        setVisible(true);
+        ((HelloWorld*)s_pHomeScene)->setBtnUp(m_tag);
+        _sendOrder();
     }
     return true;
 }
 
-void OrderBtn::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event){
-    if(m_tag < 200) return;
-    Vec2 localTouch = touch->getLocation();
-    if(getBoundingBox().containsPoint(localTouch)){
-        //setVisible(false);
-        ((HelloWorld*)s_pHomeScene)->setBtnUp();
-        _sendOrder();
-    }
-}
+//void OrderBtn::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event){
+//    if(m_tag < 200) return;
+//    Vec2 localTouch = touch->getLocation();
+//    if(getBoundingBox().containsPoint(localTouch)){
+//        setVisible(false);
+//        ((HelloWorld*)s_pHomeScene)->setBtnUp(m_tag);
+//        _sendOrder();
+//    }
+//}
+
 void OrderBtn::_sendOrder(){
     
     Label* lbl = (Label*)s_pHomeScene->getChildByTag(LBL);
@@ -135,16 +138,8 @@ void* OrderBtn::sendOrder(void* args){
     Label* lbl = (Label*)s_pHomeScene->getChildByTag(LBL);
 
     if(-1 == recsize /*|| buf[7] != bi.strOrd.at(7)*/){
-//        s_nOrderSelBtnTag = 0;
-        if(s_pHomeScene->getChildByTag(bi.tag)->isVisible()){
-            s_pHomeScene->getChildByTag(bi.tag)->setVisible(false);
-        }
-//        lbl->setString("网络超时");
+        //接收udp失败
     }else if(0 == strcmp("Device not found", buf)){
-//        s_nOrderSelBtnTag = 0;
-        if(s_pHomeScene->getChildByTag(bi.tag)->isVisible()){
-            s_pHomeScene->getChildByTag(bi.tag)->setVisible(false);
-        }
         lbl->setString("未找到设备");
     }
     return NULL;

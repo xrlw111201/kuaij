@@ -16,16 +16,17 @@
 #define EDITBOX     90001
 #define CFG         90002
 #define EXIT        90003
-#define LBL         90004
-#define LST         90005
-#define INNERNET_G  90007
-#define INNERNET    90008
-#define EBNAME      90009
-#define EBPW        90010
-#define SEND_B      90011
-#define SEND        90012
-#define EXITS_B     90013
-#define EXITS       90014
+#define BTN_LBL     90005
+#define LBL         90006
+#define LST         90007
+#define INNERNET_G  90008
+#define INNERNET    90009
+#define EBNAME      90010
+#define EBPW        90011
+#define SEND_B      90012
+#define SEND        90013
+#define EXITS_B     90014
+#define EXITS       90015
 
 #define FIRSTPNG    140000
 #define FIRSTLBL    150000
@@ -51,6 +52,9 @@ private:
     static int g_socket;
     static bool g_bNetErr;
     static sockaddr_in g_sa;
+    static pthread_t s_pid;
+    
+    static void* parseDomain(void*);
     
 public:
     static bool g_bInnerNet;

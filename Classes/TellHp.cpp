@@ -47,7 +47,7 @@ bool TellHp::init()
     float sy = sName->getTextureRect().getMaxY();
     
     ui::EditBox* pName = ui::EditBox::create(Size(sx, sy), name);
-    pName->setPosition(Vec2(visibleSize.width*0.3109, visibleSize.height*0.6901));
+    pName->setPosition(Vec2(visibleSize.width*0.5422, visibleSize.height*0.5079));
     pName->setTag(EBNAME);
     pName->setFontSize(23);
     pName->setPlaceholderFontSize(23);
@@ -65,7 +65,7 @@ bool TellHp::init()
     sy = sPw->getTextureRect().getMaxY();
     
     ui::EditBox* pPw = ui::EditBox::create(Size(sx, sy), pw);
-    pPw->setPosition(Vec2(visibleSize.width*0.7781, visibleSize.height*0.6901));
+    pPw->setPosition(Vec2(visibleSize.width*0.5422, visibleSize.height*0.4208));
     pPw->setTag(EBPW);
     pPw->setFontSize(23);
     pPw->setPlaceholderFontSize(23);
@@ -76,24 +76,24 @@ bool TellHp::init()
     addChild(pPw);
     
     Sprite* snd_b = Sprite::create("send_b.png");
-    snd_b->setPosition(visibleSize.width*0.5000, visibleSize.height*0.5035);
+    snd_b->setPosition(visibleSize.width*0.5000, visibleSize.height*0.3081);
     snd_b->setTag(SEND_B);
     addChild(snd_b);
     
     Sprite* snd = Sprite::create("send.png");
-    snd->setPosition(visibleSize.width*0.5000, visibleSize.height*0.5035);
+    snd->setPosition(visibleSize.width*0.5000, visibleSize.height*0.3081);
     snd->setTag(SEND);
     snd->setVisible(false);
     addChild(snd);
     
     Sprite* ext_b = Sprite::create("exits_b.png");
-    ext_b->setPosition(visibleSize.width*0.5000, visibleSize.height*0.3979);
+    ext_b->setPosition(visibleSize.width*0.5000, visibleSize.height*0.2245);
     ext_b->setTag(EXITS_B);
     addChild(ext_b);
     
     
     Sprite* ext = Sprite::create("exits.png");
-    ext->setPosition(visibleSize.width*0.5000, visibleSize.height*0.3979);
+    ext->setPosition(visibleSize.width*0.5000, visibleSize.height*0.2245);
     ext->setTag(EXITS);
     ext->setVisible(false);
     addChild(ext);

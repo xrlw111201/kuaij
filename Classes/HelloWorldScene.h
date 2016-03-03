@@ -16,13 +16,13 @@ public:
     CREATE_FUNC(HelloWorld);
 
     virtual bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
-    virtual void onTouchEnded(cocos2d::Touch*, cocos2d::Event*);
+//    virtual void onTouchEnded(cocos2d::Touch*, cocos2d::Event*);
     
     virtual void editBoxEditingDidBegin(ui::EditBox*);
     virtual void editBoxEditingDidEnd(ui::EditBox*);
     virtual void editBoxTextChanged(ui::EditBox*, const std::string&);
     virtual void editBoxReturn(ui::EditBox*);
-    void setBtnUp();
+    void setBtnUp(int);
 
 private:
 //    static bool s_bWait;
